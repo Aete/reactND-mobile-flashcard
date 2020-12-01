@@ -1,13 +1,22 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Platform } from 'react-native';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+
+import { NavigationContainer } from '@react-navigation/native';
+import Constants from 'expo-constants';
+
+import DeckStackScreen from './navigators/StackNavigator';
+import reducer from './reducers';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Provider store={createStore(reducer)}>
+      <NavigationContainer>
+        <DeckStackScreen />
+      </NavigationContainer>
+    </Provider>
   );
 }
 
