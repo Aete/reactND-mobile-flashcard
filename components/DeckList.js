@@ -29,12 +29,15 @@ class DeckList extends Component {
   };
   render() {
     const { decks } = this.props;
-
     return (
       <View>
         <StatusBar backgroundColor={DeepNavy} />
         {decks ? (
-          <FlatList data={Object.keys(decks)} renderItem={this.renderItem} />
+          <FlatList
+            data={Object.keys(decks)}
+            renderItem={this.renderItem}
+            extraData={decks}
+          />
         ) : (
           <Text>Loading...</Text>
         )}
@@ -67,6 +70,7 @@ const CardSubTitle = styled.Text`
 `;
 
 function mapStateToProps({ decks }) {
+  console.log(decks);
   return {
     decks,
   };

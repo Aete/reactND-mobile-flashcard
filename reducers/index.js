@@ -5,11 +5,23 @@ export default function deck(state = {}, action) {
     case ADD_CARD:
       return state;
     case ADD_DECK:
-      return state;
+      const title = action.deckTitle;
+      return {
+        ...state,
+        decks: {
+          ...state.decks,
+          [title]: {
+            title: title,
+            questions: [],
+          },
+        },
+      };
     case RECEIVE_DECKS:
       return { ...state, decks: action.decks };
     case REMOVE_DECK:
-      return state;
+      console.log(state);
+      delete state.decks[action.deckID];
+      return { ...state };
     default:
       return state;
   }

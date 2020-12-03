@@ -1,11 +1,42 @@
 import React, { Component } from 'react';
-import { LightBlue, White, Cyan } from '../utils/colors';
-import { StatusBar } from 'react-native';
+import { StatusBar, Alert } from 'react-native';
 import styled from 'styled-components/native';
+import { connect } from 'react-redux';
 
-export default class AddDeck extends Component {
+import { addDeck } from '../actions';
+import { LightBlue, White, Cyan } from '../utils/colors';
+
+class AddDeck extends Component {
   state = {
     text: '',
+  };
+  createAlert = () =>
+    Alert.alert(
+      'Error',
+      this.state.text === '' ? 'The title is needed' : 'test',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => console.log('Cancel Pressed'),
+          style: 'cancel',
+        },
+      ],
+      { cancelable: false }
+    );
+  handleText = (text) => {
+    this.setState({
+      text,
+    });
+  };
+  handleSubmit = () => {
+    const { text } = this.state;
+    const { dispatch, navigation } = this.props;
+    if (text === '') {
+      this.createAlert();
+    } else {
+      dispatch(addDeck(text));
+      navigation.navigate('Decks');
+    }
   };
   render() {
     return (
@@ -13,8 +44,8 @@ export default class AddDeck extends Component {
         <StatusBar />
         <Square>
           <Title>A new Deck is...</Title>
-          <DeckNameInput />
-          <AddBtn>
+          <DeckNameInput onChangeText={(text) => this.handleText(text)} />
+          <AddBtn onPress={this.handleSubmit}>
             <BtnText>Add Deck</BtnText>
           </AddBtn>
         </Square>
@@ -68,3 +99,9 @@ const BtnText = styled.Text`
   font-weight: 500;
   font-size: 20px;
 `;
+
+function mapStateToProps({ decks }) {
+  return { decks };
+}
+
+export default connect()(AddDeck);

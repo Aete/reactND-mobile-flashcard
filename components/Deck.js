@@ -1,26 +1,36 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
+import { removeDeck } from '../actions';
 import { Navy, Cyan, White } from '../utils/colors';
 
-function Deck({ navigation, route }) {
-  const { title, cardNum } = route.params;
-  return (
-    <DeckScreen>
-      <CardTitle>{title}</CardTitle>
-      <CardSubTitle>{`Cards: ${cardNum}`}</CardSubTitle>
-      <QuizBtn onPress={() => navigation.navigate('Quiz', { title: title })}>
-        <BtnText>Quiz</BtnText>
-      </QuizBtn>
-      <QuizBtn onPress={() => navigation.navigate('Add Card')}>
-        <BtnText>Add Question</BtnText>
-      </QuizBtn>
-      <RemoveBtn>
-        <RemoveBtnText>Delete Deck</RemoveBtnText>
-      </RemoveBtn>
-    </DeckScreen>
-  );
+class Deck extends Component {
+  handleRemove = () => {
+    const { navigation, dispatch, route } = this.props;
+    const deckID = route.params.title;
+    dispatch(removeDeck(deckID));
+    navigation.navigate('Decks');
+  };
+  render() {
+    const { navigation, route } = this.props;
+    const { title, cardNum } = route.params;
+    return (
+      <DeckScreen>
+        <CardTitle>{title}</CardTitle>
+        <CardSubTitle>{`Cards: ${cardNum}`}</CardSubTitle>
+        <QuizBtn onPress={() => navigation.navigate('Quiz', { title: title })}>
+          <BtnText>Quiz</BtnText>
+        </QuizBtn>
+        <QuizBtn onPress={() => navigation.navigate('Add Card')}>
+          <BtnText>Add Question</BtnText>
+        </QuizBtn>
+        <RemoveBtn>
+          <RemoveBtnText onPress={this.handleRemove}>Delete Deck</RemoveBtnText>
+        </RemoveBtn>
+      </DeckScreen>
+    );
+  }
 }
 
 const DeckScreen = styled.View`
