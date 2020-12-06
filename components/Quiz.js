@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
@@ -8,8 +7,19 @@ import { Navy, Cyan, White } from '../utils/colors';
 class Quiz extends Component {
   render() {
     const { decks } = this.props;
-    const { title } = this.props.route.params;
+    const { title, cardIndex } = this.props.route.params;
+    const questionArray = decks[title].questions;
+    if (questionArray.length === 0) {
+      return (
+        <QuizScreen>
+          <SorryText>
+            There is no question in this. {'\n'}Please add a card.
+          </SorryText>
+        </QuizScreen>
+      );
+    }
     const question = decks[title].questions[0].question;
+
     return (
       <QuizScreen>
         <QuizCard>
@@ -57,6 +67,15 @@ const Question = styled.Text`
   font-weight: 700;
   text-align: center;
   margin-top: 60px;
+`;
+
+const SorryText = styled.Text`
+  color: ${White};
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+  margin-left: 30px;
+  margin-right: 30px;
 `;
 
 function mapStateToProps({ decks }) {

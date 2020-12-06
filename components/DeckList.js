@@ -33,11 +33,7 @@ class DeckList extends Component {
       <View>
         <StatusBar backgroundColor={DeepNavy} />
         {decks ? (
-          <FlatList
-            data={Object.keys(decks)}
-            renderItem={this.renderItem}
-            extraData={decks}
-          />
+          <FlatList data={Object.keys(decks)} renderItem={this.renderItem} />
         ) : (
           <Text>Loading...</Text>
         )}

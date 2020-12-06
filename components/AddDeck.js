@@ -13,7 +13,9 @@ class AddDeck extends Component {
   createAlert = () =>
     Alert.alert(
       'Error',
-      this.state.text === '' ? 'The title is needed' : 'test',
+      Object.keys(this.props.decks).includes(this.state.text)
+        ? 'This deck is already existed.'
+        : 'Please check the title',
       [
         {
           text: 'Cancel',
@@ -30,8 +32,10 @@ class AddDeck extends Component {
   };
   handleSubmit = () => {
     const { text } = this.state;
-    const { dispatch, navigation } = this.props;
+    const { dispatch, navigation, decks } = this.props;
     if (text === '') {
+      this.createAlert();
+    } else if (Object.keys(decks).includes(this.state.text)) {
       this.createAlert();
     } else {
       dispatch(addDeck(text));
@@ -104,4 +108,4 @@ function mapStateToProps({ decks }) {
   return { decks };
 }
 
-export default connect()(AddDeck);
+export default connect(mapStateToProps)(AddDeck);

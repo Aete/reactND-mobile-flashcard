@@ -19,7 +19,11 @@ class Deck extends Component {
       <DeckScreen>
         <CardTitle>{title}</CardTitle>
         <CardSubTitle>{`Cards: ${cardNum}`}</CardSubTitle>
-        <QuizBtn onPress={() => navigation.navigate('Quiz', { title: title })}>
+        <QuizBtn
+          onPress={() =>
+            navigation.navigate('Quiz', { title: title, cardIndex: 0 })
+          }
+        >
           <BtnText>Quiz</BtnText>
         </QuizBtn>
         <QuizBtn onPress={() => navigation.navigate('Add Card')}>
