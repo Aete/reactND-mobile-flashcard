@@ -2,13 +2,34 @@ import React, { Component } from 'react';
 import { Text } from 'react-native';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
+
+import { addCard } from '../actions';
 import { Navy, Cyan, White } from '../utils/colors';
 
 class AddCard extends Component {
-  handleQuestion = (text) => {
+  state = {
+    question: '',
+    answer: '',
+  };
+
+  handleQuestion = (question) => {
     this.setState({
-      text,
+      question,
     });
+  };
+
+  handleAnswer = (answer) => {
+    this.setState({
+      answer,
+    });
+  };
+
+  handleSubmit = () => {
+    const { navigation, dispatch, route } = this.props;
+    const { deckID } = route.params;
+    const { question, answer } = this.state;
+    dispatch(addCard({ card: { question, answer }, deckID }));
+    navigation.navigate('Deck');
   };
 
   render() {

@@ -13,8 +13,9 @@ class DeckList extends Component {
     dispatch(receiveDecks(initialData));
   }
   renderItem = ({ item }) => {
+    console.log(item);
     const { navigation, decks } = this.props;
-    const cardNum = Object.keys(decks[item].questions).length;
+    const cardNum = decks[item].questions.length;
     return (
       <Card
         key={item}
@@ -33,7 +34,11 @@ class DeckList extends Component {
       <View>
         <StatusBar backgroundColor={DeepNavy} />
         {decks ? (
-          <FlatList data={Object.keys(decks)} renderItem={this.renderItem} />
+          <FlatList
+            data={Object.keys(decks)}
+            renderItem={this.renderItem}
+            extraData={decks}
+          />
         ) : (
           <Text>Loading...</Text>
         )}
@@ -66,7 +71,6 @@ const CardSubTitle = styled.Text`
 `;
 
 function mapStateToProps({ decks }) {
-  console.log(decks);
   return {
     decks,
   };

@@ -9,12 +9,14 @@ class Deck extends Component {
   handleRemove = () => {
     const { navigation, dispatch, route } = this.props;
     const deckID = route.params.title;
-    dispatch(removeDeck(deckID));
     navigation.navigate('Decks');
+    dispatch(removeDeck(deckID));
   };
   render() {
-    const { navigation, route } = this.props;
-    const { title, cardNum } = route.params;
+    const { navigation, route, decks } = this.props;
+    const { title } = route.params;
+    const cardNum = decks[title].questions.length;
+
     return (
       <DeckScreen>
         <CardTitle>{title}</CardTitle>
@@ -26,7 +28,9 @@ class Deck extends Component {
         >
           <BtnText>Quiz</BtnText>
         </QuizBtn>
-        <QuizBtn onPress={() => navigation.navigate('Add Card')}>
+        <QuizBtn
+          onPress={() => navigation.navigate('Add Card', { deckID: title })}
+        >
           <BtnText>Add Question</BtnText>
         </QuizBtn>
         <RemoveBtn>
@@ -91,4 +95,8 @@ const RemoveBtnText = styled.Text`
   font-size: 20px;
 `;
 
-export default connect()(Deck);
+function mapStateToProps({ decks }) {
+  return { decks };
+}
+
+export default connect(mapStateToProps)(Deck);
