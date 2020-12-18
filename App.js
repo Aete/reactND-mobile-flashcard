@@ -9,10 +9,11 @@ import Constants from 'expo-constants';
 
 import DeckStackScreen from './navigators/StackNavigator';
 import reducer from './reducers';
+import middleware from './middleware';
 
 export default function App() {
   return (
-    <Provider store={createStore(reducer)}>
+    <Provider store={createStore(reducer, middleware)}>
       <NavigationContainer>
         <DeckStackScreen />
       </NavigationContainer>

@@ -3,7 +3,7 @@ import { StatusBar, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import { connect } from 'react-redux';
 
-import { addDeck } from '../actions';
+import { handleAddDeck } from '../actions';
 import { LightBlue, White, Cyan } from '../utils/colors';
 
 class AddDeck extends Component {
@@ -38,7 +38,7 @@ class AddDeck extends Component {
     } else if (Object.keys(decks).includes(this.state.text)) {
       this.createAlert();
     } else {
-      dispatch(addDeck(text));
+      dispatch(handleAddDeck(text));
       this.setState({
         text: '',
       });
@@ -51,7 +51,10 @@ class AddDeck extends Component {
         <StatusBar />
         <Square>
           <Title>A new Deck is...</Title>
-          <DeckNameInput onChangeText={(text) => this.handleText(text)} />
+          <DeckNameInput
+            onChangeText={(text) => this.handleText(text)}
+            value={this.state.text}
+          />
           <AddBtn onPress={this.handleSubmit}>
             <BtnText>Add Deck</BtnText>
           </AddBtn>

@@ -14,13 +14,9 @@ class DeckList extends Component {
   }
   renderItem = ({ item }) => {
     const { navigation, decks } = this.props;
-    const cardNum = decks[item].questions.length;
+    const cardNum = decks[item].questions ? decks[item].questions.length : 0;
     return (
-      <Card
-        onPress={() =>
-          navigation.navigate('Deck', { title: item, cardNum: cardNum })
-        }
-      >
+      <Card onPress={() => navigation.navigate('Deck', { title: item })}>
         <CardTitle>{item}</CardTitle>
         <CardSubTitle>{`Cards: ${cardNum} `} </CardSubTitle>
       </Card>

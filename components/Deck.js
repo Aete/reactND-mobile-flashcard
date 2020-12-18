@@ -15,7 +15,7 @@ class Deck extends Component {
   render() {
     const { navigation, route, decks } = this.props;
     const { title } = route.params;
-    const cardNum = decks[title].questions.length;
+    const cardNum = decks[title].questions ? decks[title].questions.length : 0;
 
     return (
       <DeckScreen>
