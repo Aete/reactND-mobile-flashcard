@@ -30,8 +30,7 @@ class Quiz extends Component {
   };
 
   render() {
-    debugger;
-    const { decks } = this.props;
+    const { navigation, decks } = this.props;
     const { title } = this.props.route.params;
     const deck = decks[title];
     const questionArray = decks[title].questions;
@@ -51,8 +50,20 @@ class Quiz extends Component {
       return (
         <QuizScreen>
           <SorryText>
-            {`Finish! Your score is ${score}/${deck.questions.length}`}
+            {`Finish! Your score is ${score}/${
+              deck.questions.length
+            } (${Math.round((score / deck.questions.length) * 100)}%)`}
           </SorryText>
+          <FinalButtons>
+            <FinalBtn onPress={() => this.setState({ index: 0, score: 0 })}>
+              <ButtonText>Restart</ButtonText>
+            </FinalBtn>
+            <FinalBtn
+              onPress={() => navigation.navigate('Deck', { title: title })}
+            >
+              <ButtonText>Back to the deck</ButtonText>
+            </FinalBtn>
+          </FinalButtons>
         </QuizScreen>
       );
     }
@@ -61,6 +72,7 @@ class Quiz extends Component {
 
     return (
       <QuizScreen>
+        <Progress>{`Progress: ${index + 1}/${questionArray.length}`}</Progress>
         <Score>{`Score: ${score}`}</Score>
         <CardFlip
           style={{
@@ -77,7 +89,7 @@ class Quiz extends Component {
             </QuizHeader>
             <Question>{currentQuiz}</Question>
             <FlipButton onPress={() => this.card.flip()}>
-              <ButtonText>Answer</ButtonText>
+              <ButtonText>Show Answer</ButtonText>
             </FlipButton>
           </QuizCard>
           <QuizCard onPress={() => this.card.flip()}>
@@ -113,6 +125,15 @@ const Score = styled.Text`
   position: absolute;
   top: 10px;
   right: 15px;
+  color: ${White};
+  font-weight: 700;
+  font-size: 18px;
+`;
+
+const Progress = styled.Text`
+  position: absolute;
+  top: 10px;
+  left: 15px;
   color: ${White};
   font-weight: 700;
   font-size: 18px;
@@ -171,6 +192,22 @@ const SubmmitBtn = styled.TouchableOpacity`
   background-color: ${DeepBlue};
   height: 50px;
   width: 50%;
+  justify-content: center;
+  align-items: center;
+  min-width: 150px;
+  border: 5px solid ${Cyan};
+`;
+
+const FinalButtons = styled.View`
+  align-items: center;
+  width: 90%;
+  margin-top: 30px;
+`;
+
+const FinalBtn = styled.TouchableOpacity`
+  background-color: ${DeepBlue};
+  height: 50px;
+  width: 100%;
   justify-content: center;
   align-items: center;
   min-width: 150px;
