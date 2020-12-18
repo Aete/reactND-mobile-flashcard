@@ -3,7 +3,7 @@ import CardFlip from 'react-native-card-flip';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
-import { Navy, Cyan, White, DeepBlue } from '../utils/colors';
+import { Cyan, White, DeepBlue } from '../utils/colors';
 
 class Quiz extends Component {
   state = {

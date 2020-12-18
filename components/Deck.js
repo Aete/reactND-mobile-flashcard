@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
-import { removeDeck } from '../actions';
+import { handleRemoveDeck } from '../actions';
 import { Navy, Cyan, White } from '../utils/colors';
 
 class Deck extends Component {
@@ -10,7 +10,7 @@ class Deck extends Component {
     const { navigation, dispatch, route } = this.props;
     const deckID = route.params.title;
     navigation.navigate('Decks');
-    dispatch(removeDeck(deckID));
+    dispatch(handleRemoveDeck(deckID));
   };
   render() {
     const { navigation, route, decks } = this.props;
