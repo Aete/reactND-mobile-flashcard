@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
 import CardFlip from 'react-native-card-flip';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
-import { Navy, Cyan, White } from '../utils/colors';
+import { Navy, Cyan, White, DeepBlue } from '../utils/colors';
 
 class Quiz extends Component {
   state = {
@@ -12,11 +11,26 @@ class Quiz extends Component {
     score: 0,
   };
 
+  handleCorrect = () => {
+    this.setState((state) => ({
+      index: state.index + 1,
+      score: state.score + 1,
+    }));
+  };
+
+  handleIncorrect = () => {
+    this.setState((state) => ({
+      index: state.index + 1,
+      score: state.score,
+    }));
+  };
+
   render() {
     const { decks } = this.props;
     const { title } = this.props.route.params;
     const deck = decks[title];
     const questionArray = decks[title].questions;
+    const { index, score } = this.state;
     if (questionArray.length === 0) {
       return (
         <QuizScreen>
@@ -26,11 +40,23 @@ class Quiz extends Component {
         </QuizScreen>
       );
     }
-    const currentQuiz = deck.questions[this.state.index].question;
-    const currentAnswer = deck.questions[this.state.index].answer;
-    const { index, score } = this.state;
+
+    if (index === deck.questions.length) {
+      return (
+        <QuizScreen>
+          <SorryText>
+            {`Finish! Your score is ${score}/${deck.questions.length}`}
+          </SorryText>
+        </QuizScreen>
+      );
+    }
+
+    const currentQuiz = deck.questions[index].question;
+    const currentAnswer = deck.questions[index].answer;
+
     return (
       <QuizScreen>
+        <Score>{`Score: ${score}`}</Score>
         <CardFlip
           style={{
             width: '90%',
@@ -56,6 +82,14 @@ class Quiz extends Component {
             </FlipButton>
           </QuizCard>
         </CardFlip>
+        <Buttons>
+          <SubmmitBtn onPress={this.handleCorrect}>
+            <ButtonText>Correct</ButtonText>
+          </SubmmitBtn>
+          <SubmmitBtn onPress={this.handleIncorrect}>
+            <ButtonText>Incorrect</ButtonText>
+          </SubmmitBtn>
+        </Buttons>
       </QuizScreen>
     );
   }
@@ -67,6 +101,16 @@ const QuizScreen = styled.View`
   height: 100%;
   width: 100%;
   background-color: ${Cyan};
+  position: relative;
+`;
+
+const Score = styled.Text`
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  color: ${White};
+  font-weight: 700;
+  font-size: 18px;
 `;
 
 const QuizCard = styled.View`
@@ -75,14 +119,12 @@ const QuizCard = styled.View`
   background-color: ${White};
   width: 100%;
   height: 100%;
+  padding: 25px;
 `;
 
 const QuizHeader = styled.View`
   align-items: flex-start;
   width: 100%;
-  margin-top: 10px;
-  margin-left: 20px;
-  margin-bottom: 60px;
 `;
 
 const HeaderText = styled.Text`
@@ -104,8 +146,6 @@ const FlipButton = styled.TouchableOpacity`
   border-radius: 8px;
   justify-content: center;
   align-items: center;
-  margin-top: 50px;
-  margin-bottom: 10px;
   min-width: 200px;
 `;
 
@@ -115,8 +155,25 @@ const ButtonText = styled.Text`
   font-weight: 700;
 `;
 
+const Buttons = styled.View`
+  flex-direction: row;
+  align-items: center;
+  width: 90%;
+  margin-top: 30px;
+`;
+
+const SubmmitBtn = styled.TouchableOpacity`
+  background-color: ${DeepBlue};
+  height: 50px;
+  width: 50%;
+  justify-content: center;
+  align-items: center;
+  min-width: 150px;
+  border: 5px solid ${Cyan};
+`;
+
 const SorryText = styled.Text`
-  color: ${Navy};
+  color: ${White};
   font-size: 25px;
   font-weight: 700;
   text-align: center;
