@@ -13,7 +13,6 @@ class DeckList extends Component {
     dispatch(receiveDecks(initialData));
   }
   renderItem = ({ item }) => {
-    console.log(item);
     const { navigation, decks } = this.props;
     const cardNum = decks[item].questions.length;
     return (

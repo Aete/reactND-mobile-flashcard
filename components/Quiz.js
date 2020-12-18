@@ -1,13 +1,21 @@
 import React, { Component } from 'react';
+import { StyleSheet } from 'react-native';
+import CardFlip from 'react-native-card-flip';
 import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
 import { Navy, Cyan, White } from '../utils/colors';
 
 class Quiz extends Component {
+  state = {
+    index: 0,
+    score: 0,
+  };
+
   render() {
     const { decks } = this.props;
-    const { title, cardIndex } = this.props.route.params;
+    const { title } = this.props.route.params;
+    const deck = decks[title];
     const questionArray = decks[title].questions;
     if (questionArray.length === 0) {
       return (
@@ -18,16 +26,36 @@ class Quiz extends Component {
         </QuizScreen>
       );
     }
-    const question = decks[title].questions[0].question;
-
+    const currentQuiz = deck.questions[this.state.index].question;
+    const currentAnswer = deck.questions[this.state.index].answer;
+    const { index, score } = this.state;
     return (
       <QuizScreen>
-        <QuizCard>
-          <QuizHeader>
-            <HeaderText>{`Quiz ${1}`}</HeaderText>
-          </QuizHeader>
-          <Question>{`${question}`}</Question>
-        </QuizCard>
+        <CardFlip
+          style={{
+            width: '90%',
+            height: '60%',
+            justifyContent: 'center',
+            padding: '10px',
+          }}
+          ref={(card) => (this.card = card)}
+        >
+          <QuizCard>
+            <QuizHeader>
+              <HeaderText>{`Quiz ${index + 1}`}</HeaderText>
+            </QuizHeader>
+            <Question>{currentQuiz}</Question>
+            <FlipButton onPress={() => this.card.flip()}>
+              <ButtonText>Answer</ButtonText>
+            </FlipButton>
+          </QuizCard>
+          <QuizCard onPress={() => this.card.flip()}>
+            <Question>{currentAnswer}</Question>
+            <FlipButton onPress={() => this.card.flip()}>
+              <ButtonText>Question</ButtonText>
+            </FlipButton>
+          </QuizCard>
+        </CardFlip>
       </QuizScreen>
     );
   }
@@ -37,15 +65,16 @@ const QuizScreen = styled.View`
   justify-content: center;
   align-items: center;
   height: 100%;
+  width: 100%;
   background-color: ${Cyan};
 `;
 
 const QuizCard = styled.View`
-  justify-content: flex-start;
+  justify-content: space-around;
   align-items: center;
-  border: 3px solid #fff;
-  width: 90%;
-  height: 90%;
+  background-color: ${White};
+  width: 100%;
+  height: 100%;
 `;
 
 const QuizHeader = styled.View`
@@ -53,24 +82,41 @@ const QuizHeader = styled.View`
   width: 100%;
   margin-top: 10px;
   margin-left: 20px;
+  margin-bottom: 60px;
 `;
 
 const HeaderText = styled.Text`
-  color: ${White};
+  color: ${Cyan};
   font-size: 20px;
   font-weight: 500;
 `;
 
 const Question = styled.Text`
-  color: ${White};
+  color: ${Cyan};
   font-size: 30px;
   font-weight: 700;
   text-align: center;
-  margin-top: 60px;
+`;
+
+const FlipButton = styled.TouchableOpacity`
+  background-color: ${Cyan};
+  height: 40px;
+  border-radius: 8px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 50px;
+  margin-bottom: 10px;
+  min-width: 200px;
+`;
+
+const ButtonText = styled.Text`
+  color: ${White};
+  font-size: 20px;
+  font-weight: 700;
 `;
 
 const SorryText = styled.Text`
-  color: ${White};
+  color: ${Navy};
   font-size: 25px;
   font-weight: 700;
   text-align: center;
