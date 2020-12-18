@@ -46,7 +46,7 @@ class Quiz extends Component {
     }
 
     if (index === deck.questions.length) {
-      //clearLocalNotification().then(setLocalNotification);
+      clearLocalNotification().then(setLocalNotification);
       return (
         <QuizScreen>
           <SorryText>

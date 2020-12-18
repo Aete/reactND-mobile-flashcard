@@ -14,7 +14,7 @@ import { setLocalNotification } from './utils/notification';
 
 export default class App extends Component {
   componentDidMount() {
-    //setLocalNotification();
+    setLocalNotification();
   }
   render() {
     return (
