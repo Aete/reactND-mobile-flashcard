@@ -4,6 +4,10 @@ import { connect } from 'react-redux';
 import styled from 'styled-components/native';
 
 import { Cyan, White, DeepBlue } from '../utils/colors';
+import {
+  clearLocalNotification,
+  setLocalNotification,
+} from '../utils/notification';
 
 class Quiz extends Component {
   state = {
@@ -26,6 +30,7 @@ class Quiz extends Component {
   };
 
   render() {
+    debugger;
     const { decks } = this.props;
     const { title } = this.props.route.params;
     const deck = decks[title];
@@ -42,6 +47,7 @@ class Quiz extends Component {
     }
 
     if (index === deck.questions.length) {
+      //clearLocalNotification().then(setLocalNotification);
       return (
         <QuizScreen>
           <SorryText>
