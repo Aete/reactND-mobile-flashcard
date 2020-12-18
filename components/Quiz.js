@@ -50,7 +50,6 @@ class Quiz extends Component {
         </QuizScreen>
       );
     }
-
     const currentQuiz = deck.questions[index].question;
     const currentAnswer = deck.questions[index].answer;
 

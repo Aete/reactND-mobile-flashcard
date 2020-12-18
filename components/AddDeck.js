@@ -39,6 +39,9 @@ class AddDeck extends Component {
       this.createAlert();
     } else {
       dispatch(addDeck(text));
+      this.setState({
+        text: '',
+      });
       navigation.navigate('Decks');
     }
   };

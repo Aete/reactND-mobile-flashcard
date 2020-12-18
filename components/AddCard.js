@@ -39,7 +39,7 @@ class AddCard extends Component {
           <Title>A new Question is...</Title>
           <QuestionInput onChangeText={(text) => this.handleQuestion(text)} />
           <Title>An Answer is...</Title>
-          <QuestionInput onChangeText={(text) => this.handleQuestion(text)} />
+          <QuestionInput onChangeText={(text) => this.handleAnswer(text)} />
           <AddBtn onPress={this.handleSubmit}>
             <BtnText>Add Card</BtnText>
           </AddBtn>
